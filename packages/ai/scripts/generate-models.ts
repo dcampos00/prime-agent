@@ -1923,15 +1923,36 @@ async function generateModels() {
 		}
 	}
 
-	const minimaxDirectSupportedIds = new Set(["MiniMax-M2.7", "MiniMax-M2.7-highspeed"]);
+	const minimaxDirectSupportedIds = new Set([
+		"MiniMax-M2",
+		"MiniMax-M2.1",
+		"MiniMax-M2.5",
+		"MiniMax-M2.7",
+		"MiniMax-M2.7-highspeed",
+		"MiniMax-M3",
+		"MiniMax-M3-highspeed",
+	]);
+
+	// MiniMax M2 models have 200k context window
+	const MINIMAX_M2_CONTEXT = 204800;
+	const MINIMAX_M2_MAX_TOKENS = 131072;
+	// MiniMax M3 models have 1M context window
+	const MINIMAX_M3_CONTEXT = 1048576;
+	const MINIMAX_M3_MAX_TOKENS = 512000;
 
 	for (const candidate of allModels) {
 		if (
 			(candidate.provider === "minimax" || candidate.provider === "minimax-cn") &&
 			minimaxDirectSupportedIds.has(candidate.id)
 		) {
-			candidate.contextWindow = 204800;
-			candidate.maxTokens = 131072;
+			// Set context window and max tokens based on model version
+			if (candidate.id.startsWith("MiniMax-M3")) {
+				candidate.contextWindow = MINIMAX_M3_CONTEXT;
+				candidate.maxTokens = MINIMAX_M3_MAX_TOKENS;
+			} else {
+				candidate.contextWindow = MINIMAX_M2_CONTEXT;
+				candidate.maxTokens = MINIMAX_M2_MAX_TOKENS;
+			}
 		}
 	}
 

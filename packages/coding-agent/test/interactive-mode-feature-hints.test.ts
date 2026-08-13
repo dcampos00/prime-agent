@@ -93,6 +93,7 @@ describe("feature hint deck", () => {
 		expect(textById.get("goal")).toContain("/goal");
 		expect(textById.get("refine")).toContain("/refine");
 		expect(textById.get("trace-sharing")).toContain("/traces on");
+		expect(textById.get("trace-sharing")).toContain("Prime Intellect");
 		expect(textById.get("trace-sharing")).toContain("open-source LLMs");
 		expect(textById.get("persistent-ipython")).toContain("IPython");
 		expect(textById.get("context-usage")).toContain("/context");
